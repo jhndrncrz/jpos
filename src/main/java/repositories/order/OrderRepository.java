@@ -147,7 +147,7 @@ public class OrderRepository {
         return new Order(
                 rs.getInt("order_id"),
                 rs.getInt("employee_id"),
-                rs.getBigDecimal("total_amount"),
+                rs.getInt("customer_id"),
                 rs.getString("payment_method"),
                 rs.getString("status"),
                 rs.getTimestamp("created_at"));

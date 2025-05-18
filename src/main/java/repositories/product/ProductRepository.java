@@ -51,8 +51,8 @@ public class ProductRepository {
         return products;
     }
 
-    public static boolean insert(Product product) {
-        String sql = "INSERT INTO `Product` (name, description, stock, limit, base_price, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+    public static boolean create(Product product) {
+        String sql = "INSERT INTO `Product` (name, description, stock, limit, base_price) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -62,7 +62,6 @@ public class ProductRepository {
             statement.setInt(3, product.getStock());
             statement.setInt(4, product.getLimit());
             statement.setBigDecimal(5, product.getBasePrice());
-            statement.setTimestamp(6, product.getCreatedAt());
 
             int rows = statement.executeUpdate();
 
@@ -80,14 +79,15 @@ public class ProductRepository {
                 return true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            // e.printStackTrace(); fix this
+            throw new RuntimeException(e);
         }
 
         return false;
     }
 
     public static boolean update(Product product) {
-        String sql = "UPDATE `Product` SET name = ?, description = ?, stock = ?, limit = ?, base_price = ?, created_at = ? WHERE product_id = ?";
+        String sql = "UPDATE `Product` SET name = ?, description = ?, stock = ?, limit = ?, base_price = ? WHERE product_id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {

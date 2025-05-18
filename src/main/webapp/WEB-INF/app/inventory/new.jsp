@@ -93,6 +93,14 @@
                         </a>
                     </li>
 
+                    <!-- Nav Item - Inventory -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/app/inventory/list">
+                            <i class="fas fa-fw fa-list"></i>
+                            <span>Inventory</span>
+                        </a>
+                    </li>
+
                     <!-- Nav Item - Employees -->
                     <li class="nav-item active">
                         <a class="nav-link" href="${pageContext.request.contextPath}/app/employees/list">

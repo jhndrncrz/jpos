@@ -2,6 +2,8 @@ package controllers.employees;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,9 +25,8 @@ public class NewEmployeeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer employeeId = Integer.parseInt(request.getParameter("employee_id"));
         String username = request.getParameter("username");
-        String passwordHash = request.getParameter("password");
+        String password = request.getParameter("password");
         String firstName = request.getParameter("first_name");
         String lastName = request.getParameter("last_name");
         String role = request.getParameter("role");
@@ -35,15 +36,67 @@ public class NewEmployeeController extends HttpServlet {
 
         Employee employee = new Employee();
 
-        employee.setEmployeeId(employeeId);
-        employee.setUsername(username);
-        employee.setPasswordHash(Cryptography.hashPassword(passwordHash));
-        employee.setFirstName(firstName);
-        employee.setLastName(lastName);
-        employee.setRole(role);
-        employee.setSalary(salary);
-        employee.setEmail(email);
-        employee.setPhoneNumber(phoneNumber);
+        Map<String, String> errors = new HashMap<String, String>();
+
+        try {
+            if (EmployeeRepository.isUsernameTaken(username)) {
+                throw new Exception("Username is already taken.");
+            }
+            
+            employee.setUsername(username);
+        } catch (Exception e) {
+            errors.put("username", e.getMessage());
+        }
+
+        try {
+            employee.setPasswordHash(Cryptography.hashPassword(password));
+        } catch (Exception e) {
+            errors.put("password", e.getMessage());
+        }
+
+        try {
+            employee.setFirstName(firstName);
+        } catch (Exception e) {
+            errors.put("first_name", e.getMessage());
+        }
+
+        try {
+            employee.setLastName(lastName);
+        } catch (Exception e) {
+            errors.put("last_name", e.getMessage());
+        }
+
+        try {
+            employee.setRole(role);
+        } catch (Exception e) {
+            errors.put("role", e.getMessage());
+        }
+
+        try {
+            employee.setSalary(salary);
+        } catch (Exception e) {
+            errors.put("salary", e.getMessage());
+        }
+
+        try {
+            employee.setEmail(email);
+        } catch (Exception e) {
+            errors.put("email", e.getMessage());
+        }
+
+        try {
+            employee.setPhoneNumber(phoneNumber);
+        } catch (Exception e) {
+            errors.put("phone_number", e.getMessage());
+        }
+
+        if (!errors.isEmpty()) {
+            request.setAttribute("errors", errors);
+            request.setAttribute("employee", employee);
+
+            request.getRequestDispatcher("/WEB-INF/app/employees/new.jsp").forward(request, response);
+            return;
+        }
 
         EmployeeRepository.create(employee);
 

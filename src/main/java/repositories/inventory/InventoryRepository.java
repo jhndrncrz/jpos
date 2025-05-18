@@ -1,7 +1,6 @@
 package repositories.inventory;
 
 import models.inventory.Inventory;
-import utilities.cryptography.Cryptography;
 import utilities.database.DatabaseConnection;
 
 import java.sql.*;
@@ -14,17 +13,16 @@ public class InventoryRepository {
      * Inserts a new employee into the database.
      */
     public static boolean create(Inventory inventory) {
-        String sql = "INSERT INTO `Inventory` (itemName, itemType, base_price, stock, totalprice, floorAmount, roofAmount) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO `Inventory` (item_name, item_type, base_price, stock, floor_amount, roof_amount) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, inventory.getItemName());
             statement.setString(2, inventory.getItemType());
-            statement.setFloat(3, inventory.getBasePrice());
+            statement.setBigDecimal(3, inventory.getBasePrice());
             statement.setInt(4, inventory.getStock());
-            statement.setFloat(5, inventory.getTotalPrice());
-            statement.setInt(6, inventory.getFloorAmount());
-            statement.setInt(7, inventory.getRoofAmount());
+            statement.setInt(5, inventory.getFloorAmount());
+            statement.setInt(6, inventory.getRoofAmount());
             
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -37,7 +35,7 @@ public class InventoryRepository {
      * Retrieves an employee by ID.
      */
     public static Inventory findById(int itemId) {
-        String sql = "SELECT * FROM `Inventory` WHERE itemId = ?";
+        String sql = "SELECT * FROM `Inventory` WHERE item_id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -77,17 +75,16 @@ public class InventoryRepository {
      * Updates an employee's details.
      */
     public static boolean update(Inventory inventory) {
-        String sql = "UPDATE `Inventory` SET itemName = ?, itemtype = ?, base_price = ?, stock = ?, totalPrice = ?, floorAmount = ?, roofAmount = ? WHERE itemId = ?";
+        String sql = "UPDATE `Inventory` SET item_name = ?, item_type = ?, base_price = ?, stock = ?, floor_amount = ?, roof_amount = ? WHERE item_id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
                     statement.setString(1, inventory.getItemName());
                     statement.setString(2, inventory.getItemType());
-                    statement.setFloat(3, inventory.getBasePrice());
+                    statement.setBigDecimal(3, inventory.getBasePrice());
                     statement.setInt(4, inventory.getStock());
-                    statement.setFloat(5, inventory.getTotalPrice());
-                    statement.setInt(6, inventory.getFloorAmount());
-                    statement.setInt(7, inventory.getRoofAmount());
+                    statement.setInt(5, inventory.getFloorAmount());
+                    statement.setInt(6, inventory.getRoofAmount());
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,7 +96,7 @@ public class InventoryRepository {
      * Deletes an employee by ID.
      */
     public static boolean delete(int itemId) {
-        String sql = "DELETE FROM `Inventory` WHERE itemId = ?";
+        String sql = "DELETE FROM `Inventory` WHERE item_id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -116,7 +113,7 @@ public class InventoryRepository {
      * Checks if a username is already taken.
      */
     public static boolean isItemNameTaken(String itemName) {
-        String sql = "SELECT 1 FROM `Inventory` WHERE itemName = ?";
+        String sql = "SELECT 1 FROM `Inventory` WHERE item_name = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -134,14 +131,13 @@ public class InventoryRepository {
      */
     private static Inventory mapInventory(ResultSet rs) throws SQLException {
         return new Inventory(
-                rs.getInt("itemId"),
-                rs.getString("itemName"),
-                rs.getString("itemType"),
-                rs.getFloat("base_price"),
+                rs.getInt("item_id"),
+                rs.getString("item_name"),
+                rs.getString("item_type"),
+                rs.getBigDecimal("base_price"),
                 rs.getInt("stock"),
-                rs.getFloat("totalPrice"),
-                rs.getInt("floorAmount"),
-                rs.getInt("roofAmount"),
+                rs.getInt("floor_amount"),
+                rs.getInt("roof_amount"),
                 rs.getTimestamp("created_at"),
                 rs.getTimestamp("updated_at"));
     }

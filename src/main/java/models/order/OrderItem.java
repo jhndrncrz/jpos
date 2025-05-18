@@ -18,7 +18,6 @@ public class OrderItem {
 
     private Integer quantity;
     private BigDecimal unitPrice;
-    private BigDecimal subtotal;
 
     private List<ProductModifier> modifiers;
 
@@ -132,8 +131,8 @@ public class OrderItem {
         if (quantity == null || quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be a positive integer.");
         }
+
         this.quantity = quantity;
-        this.calculateSubtotal();
     }
 
     /**
@@ -155,32 +154,25 @@ public class OrderItem {
         if (unitPrice == null || unitPrice.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Unit price must be non-negative.");
         }
-        this.unitPrice = unitPrice;
-        this.calculateSubtotal();
-    }
 
-    /**
-     * Gets the subtotal for this item (unitPrice × quantity).
-     *
-     * @return The subtotal.
-     */
-    public BigDecimal getSubtotal() {
-        return this.subtotal;
+        this.unitPrice = unitPrice;
     }
 
     /**
      * Calculates and sets the subtotal based on the current quantity and unit price.
      * The subtotal is calculated as (unitPrice + totalModifiers) * quantity.
      */
-    private void calculateSubtotal() {
+    public BigDecimal getSubtotal() {
         BigDecimal totalModifiers = BigDecimal.ZERO;
         for (ProductModifier modifier : this.modifiers) {
             totalModifiers = totalModifiers.add(modifier.getPriceModifier());
         }
 
         if (this.quantity != null && this.unitPrice != null) {
-            this.subtotal = this.unitPrice.add(totalModifiers).multiply(BigDecimal.valueOf(this.quantity));
+            return this.unitPrice.add(totalModifiers).multiply(BigDecimal.valueOf(this.quantity));
         }
+
+        return BigDecimal.ZERO;
     }
 
     public List<ProductModifier> getModifiers() {

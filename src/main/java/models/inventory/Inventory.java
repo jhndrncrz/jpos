@@ -1,58 +1,56 @@
 package models.inventory;
 
-
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 
 /**
  * Represents an inventory management in the system.
  */
 public class Inventory {
     private Integer itemId;
-	private String itemName;
-	private String itemType;
-	private Float base_price;
-	private Integer stock;
-	private Float totalPrice;
-	private Integer floorAmount;
-	private Integer roofAmount;
+
+    private String itemName;
+    private String itemType;
+    private BigDecimal basePrice;
+    private Integer stock;
+    private Integer floorAmount;
+    private Integer roofAmount;
+
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
     /**
      * Default constructor.
      */
-    public Inventory() {}
+    public Inventory() {
+    }
 
-        /**
-     
-     * @param itemId 
-     * @param itemName 
-     * @param itemType 
-     * @param base_price 
-     * @param stock 
-     * @param totalPrice 
-     * @param floorAmount 
-     * @param roofAmount 
-     * @param createdAt Timestamp when the record was created
-     * @param updatedAt Timestamp when the record was last updated
+    /**
+     * 
+     * @param itemId
+     * @param itemName
+     * @param itemType
+     * @param basePrice
+     * @param stock
+     * @param floorAmount
+     * @param roofAmount
+     * @param createdAt   Timestamp when the record was created
+     * @param updatedAt   Timestamp when the record was last updated
      */
 
-    public Inventory(Integer id, String in, String it, Float bp, Integer s
-                    , Integer fa, Integer ra,
-                    Timestamp createdAt, Timestamp updatedAt) {
-        this.setItemId(id);
-        this.setItemName(in);
-        this.setItemType(it);
-        this.setBasePrice(bp);
-        this.setStock(s);
-        this.setTotalPrice(bp, s);
-        this.setFloorAmount(fa);
-        this.setRoofAmount(ra);
+    public Inventory(Integer itemId, String itemName, String itemType, BigDecimal basePrice, Integer stock,
+            Integer floorAmount, Integer roofAmount,
+            Timestamp createdAt, Timestamp updatedAt) {
+        this.setItemId(itemId);
+        this.setItemName(itemName);
+        this.setItemType(itemType);
+        this.setBasePrice(basePrice);
+        this.setStock(stock);
+        this.setFloorAmount(floorAmount);
+        this.setRoofAmount(roofAmount);
         this.setCreatedAt(createdAt);
         this.setUpdatedAt(updatedAt);
     }
-
 
     public void setItemId(Integer itemId) {
         if (itemId == null || itemId <= 0) {
@@ -61,11 +59,9 @@ public class Inventory {
         this.itemId = itemId;
     }
 
-
     public Integer getItemId() {
         return this.itemId;
     }
-
 
     public void setItemName(String itemName) {
         if (itemName == null || itemName.trim().isEmpty()) {
@@ -74,11 +70,9 @@ public class Inventory {
         this.itemName = itemName.trim();
     }
 
-
     public String getItemName() {
         return this.itemName;
     }
-
 
     public void setItemType(String itemType) {
         if (itemType == null || itemType.trim().isEmpty()) {
@@ -87,24 +81,20 @@ public class Inventory {
         this.itemType = itemType.trim();
     }
 
-
     public String getItemType() {
         return this.itemType;
     }
 
-
-    public void setBasePrice(Float base_price) {
-        if (base_price == null || base_price <= 0) {
+    public void setBasePrice(BigDecimal basePrice) {
+        if (basePrice == null || basePrice.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("base_price cannot be null or empty.");
         }
-        this.base_price = base_price;
+        this.basePrice = basePrice;
     }
 
-
-    public Float getBasePrice() {
-        return this.base_price;
+    public BigDecimal getBasePrice() {
+        return this.basePrice;
     }
-
 
     public void setStock(Integer stock) {
         if (stock == null || stock < 0) {
@@ -113,24 +103,13 @@ public class Inventory {
         this.stock = stock;
     }
 
-
     public Integer getStock() {
         return this.stock;
     }
 
- 
-    public void setTotalPrice(Float base_price, Integer stock) {
-        if (base_price == null || stock == null) {
-            throw new IllegalArgumentException("base_price and stock cannot be null.");
-        }
-        this.totalPrice = base_price * stock.floatValue();
+    public BigDecimal getTotalPrice() {
+        return (BigDecimal.valueOf(this.stock).multiply(this.basePrice));
     }
-
-
-    public Float getTotalPrice() {
-        return this.totalPrice;
-    }
-
 
     public void setFloorAmount(Integer floorAmount) {
         if (floorAmount == null || floorAmount < 0) {
@@ -138,7 +117,6 @@ public class Inventory {
         }
         this.floorAmount = floorAmount;
     }
-
 
     public Integer getFloorAmount() {
         return this.floorAmount;
@@ -151,12 +129,9 @@ public class Inventory {
         this.roofAmount = roofAmount;
     }
 
-
     public Integer getRoofAmount() {
         return this.roofAmount;
     }
-
-
 
     public void setCreatedAt(Timestamp createdAt) {
         if (createdAt == null) {
@@ -169,14 +144,12 @@ public class Inventory {
         return this.createdAt;
     }
 
-
     public void setUpdatedAt(Timestamp updatedAt) {
         if (updatedAt == null) {
             throw new IllegalArgumentException("Updated at cannot be null.");
         }
         this.updatedAt = updatedAt;
     }
-
 
     public Timestamp getUpdatedAt() {
         return this.updatedAt;

@@ -1,6 +1,7 @@
 package controllers.inventory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,22 +23,22 @@ public class NewInventoryController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                Integer itemId = Integer.parseInt(request.getParameter("itemId"));
-                String itemName = request.getParameter("itemName");
-                String itemType = request.getParameter("itemType");
-                Float base_price = Float.parseFloat(request.getParameter("base_price"));
+                Integer itemId = Integer.parseInt(request.getParameter("item_id"));
+                String itemName = request.getParameter("item_name");
+                String itemType = request.getParameter("item_type");
+                BigDecimal basePrice = new BigDecimal(request.getParameter("base_price"));
                 Integer stock = Integer.parseInt(request.getParameter("stock"));
-                Integer floorAmount = Integer.parseInt(request.getParameter("floorAmount"));
-                Integer roofAmount = Integer.parseInt(request.getParameter("roofAmount"));
+                Integer floorAmount = Integer.parseInt(request.getParameter("floor_amount"));
+                Integer roofAmount = Integer.parseInt(request.getParameter("roof_amount"));
 
         Inventory inventory = new Inventory();
 
         inventory.setItemId(itemId);
         inventory.setItemName(itemName);
         inventory.setItemType(itemType);
-        inventory.setBasePrice(base_price);
+        inventory.setBasePrice(basePrice);
         inventory.setStock(stock);
-        inventory.setTotalPrice(base_price, stock);
+
         inventory.setFloorAmount(floorAmount);
         inventory.setRoofAmount(roofAmount);
 

@@ -36,11 +36,13 @@ public class LoginController extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("employeeId", employee.getEmployeeId());
             session.setAttribute("username", employee.getUsername());
+            session.setAttribute("role", employee.getRole());
             session.setAttribute("fullName", employee.getFirstName() + " " + employee.getLastName());
             response.sendRedirect(request.getContextPath() + "/app/dashboard");
         } else {
-            request.getSession().setAttribute("error", "Invalid username or password.");
-            response.sendRedirect(request.getContextPath() + "/auth/login");
+            request.setAttribute("error", "Invalid username or password.");
+            request.getRequestDispatcher("/WEB-INF/auth/login.jsp").forward(request, response);
+            return;
         }
     }
 }

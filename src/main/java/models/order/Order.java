@@ -12,8 +12,8 @@ public class Order {
     private Integer orderId;
 
     private Integer employeeId;
+    private Integer customerId;
 
-    private BigDecimal totalAmount;
     private String paymentMethod;
     private String status; // 'pending', 'completed', 'cancelled'
 
@@ -37,10 +37,11 @@ public class Order {
      * @param status        The current status of the order.
      * @param createdAt     The timestamp when the order was created.
      */
-    public Order(Integer orderId, Integer employeeId, BigDecimal totalAmount, String paymentMethod, String status, Timestamp createdAt) {
+    public Order(Integer orderId, Integer employeeId, Integer customerId, String paymentMethod, String status,
+            Timestamp createdAt) {
         this.setOrderId(orderId);
         this.setEmployeeId(employeeId);
-        this.setTotalAmount(totalAmount);
+        this.setCustomerId(customerId);
         this.setPaymentMethod(paymentMethod);
         this.setStatus(status);
         this.setCreatedAt(createdAt);
@@ -94,26 +95,40 @@ public class Order {
     }
 
     /**
+     * Gets the customer ID associated with the order.
+     *
+     * @return The customer ID.
+     */
+    public Integer getCustomerId() {
+        return this.customerId;
+    }
+
+    /**
+     * Sets the customer ID associated with the order.
+     *
+     * @param customerId The customer ID to set.
+     * @throws IllegalArgumentException if the ID is not positive.
+     */
+    public void setCustomerId(Integer customerId) {
+        if (customerId != null && customerId <= 0) {
+            throw new IllegalArgumentException("Customer ID must be positive.");
+        }
+
+        this.customerId = customerId;
+    }
+
+    /**
      * Gets the total amount of the order.
      *
      * @return The total amount.
      */
     public BigDecimal getTotalAmount() {
-        return this.totalAmount;
-    }
-
-    /**
-     * Sets the total amount of the order.
-     *
-     * @param totalAmount The total amount to set.
-     * @throws IllegalArgumentException if the amount is negative.
-     */
-    public void setTotalAmount(BigDecimal totalAmount) {
-        if (totalAmount != null && totalAmount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Total amount cannot be negative.");
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        for (OrderItem item : this.items) {
+            totalAmount = totalAmount.add(item.getSubtotal());
         }
 
-        this.totalAmount = totalAmount;
+        return totalAmount;
     }
 
     /**
@@ -135,7 +150,7 @@ public class Order {
         if (paymentMethod == null || paymentMethod.trim().isEmpty()) {
             throw new IllegalArgumentException("Payment method cannot be null or empty.");
         }
-        
+
         this.paymentMethod = paymentMethod.trim();
     }
 
@@ -156,9 +171,9 @@ public class Order {
      */
     public void setStatus(String status) {
         if (status == null ||
-            !(status.equalsIgnoreCase("pending") ||
-              status.equalsIgnoreCase("completed") ||
-              status.equalsIgnoreCase("cancelled"))) {
+                !(status.equalsIgnoreCase("pending") ||
+                        status.equalsIgnoreCase("completed") ||
+                        status.equalsIgnoreCase("cancelled"))) {
             throw new IllegalArgumentException("Invalid status: " + status);
         }
         this.status = status.toLowerCase();

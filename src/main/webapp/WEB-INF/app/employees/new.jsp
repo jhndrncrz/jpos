@@ -12,7 +12,7 @@
             <meta name="description" content="">
             <meta name="author" content="">
 
-            <title>JPOS - Dashboard</title>
+            <title>JPOS - New Employee</title>
 
             <!-- Custom fonts for this template-->
             <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
@@ -48,7 +48,7 @@
 
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/app/orders/place"
-                            class="w-100 btn btn-primary btn-icon-split nav-link bg-gradient-warning">
+                            class="nav-link bg-gradient-success">
                             <span class="icon text-white-50">
                                 <i class="fas fa-flag"></i>
                             </span>
@@ -90,6 +90,14 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/app/products/list">
                             <i class="fas fa-fw fa-utensils"></i>
                             <span>Products</span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Inventory -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/app/inventory/list">
+                            <i class="fas fa-fw fa-list"></i>
+                            <span>Inventory</span>
                         </a>
                     </li>
 
@@ -168,63 +176,128 @@
 
                             <!-- Page Heading -->
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 class="h3 mb-0 text-gray-800">Employees > Create</h1>
+                                <h1 class="h3 mb-0 text-gray-800">Employees > New</h1>
+                                <a href="${pageContext.request.contextPath}/app/employees/list"
+                                    class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i
+                                        class="fas fa-chevron-left fa-sm text-white-50"></i> Back</a>
                             </div>
 
                             <!-- Content Row -->
                             <div>
                                 <form action="${pageContext.request.contextPath}/app/employees/new" method="post">
-                                    <div class="row mb-3">
-                                        <div class="col">
+                                    <div class="row">
+                                        <div class="col form-group">
                                             <label for="username">Username</label>
-                                            <input type="text" class="form-control" id="username" name="username"
-                                                required>
+                                            <input type="text"
+                                                class="form-control ${errors['username'] != null ? 'is-invalid' : ''}"
+                                                id="username" name="username" value="${employee.getUsername()}" required
+                                                placeholder="e.g., johndoe">
+                                            <c:if test="${errors['username'] != null}">
+                                                <div class="invalid-feedback">
+                                                    ${errors['username']}
+                                                </div>
+                                            </c:if>
                                         </div>
 
-                                        <div class="col">
+                                        <div class="col form-group">
                                             <label for="password">Password</label>
-                                            <input type="password" class="form-control" id="password" name="password"
-                                                required>
+                                            <input type="password"
+                                                class="form-control ${errors['password'] != null ? 'is-invalid' : ''}"
+                                                id="password" name="password"
+                                                placeholder="e.g., johndoe">
+                                            <c:if test="${errors['password'] != null}">
+                                                <div class="invalid-feedback">
+                                                    ${errors['password']}
+                                                </div>
+                                            </c:if>
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
-                                        <div class="col">
+
+                                    <div class="row">
+                                        <div class="col form-group">
                                             <label for="first_name">First Name</label>
-                                            <input type="text" class="form-control" id="first_name" name="first_name"
-                                                required>
+                                            <input type="text"
+                                                class="form-control ${errors['first_name'] != null ? 'is-invalid' : ''}"
+                                                id="first_name" name="first_name" value="${employee.getFirstName()}"
+                                                required placeholder="e.g., John">
+                                            <c:if test="${errors['first_name'] != null}">
+                                                <div class="invalid-feedback">
+                                                    ${errors['first_name']}
+                                                </div>
+                                            </c:if>
                                         </div>
 
-                                        <div class="col">
+                                        <div class="col form-group">
                                             <label for="last_name">Last Name</label>
-                                            <input type="last_name" class="form-control" id="last_name" name="last_name"
-                                                required>
+                                            <input type="text"
+                                                class="form-control ${errors['last_name'] != null ? 'is-invalid' : ''}"
+                                                id="last_name" name="last_name" value="${employee.getLastName()}"
+                                                required placeholder="e.g., Doe">
+                                            <c:if test="${errors['last_name'] != null}">
+                                                <div class="invalid-feedback">
+                                                    ${errors['last_name']}
+                                                </div>
+                                            </c:if>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="role">Role</label>
-                                        <select class="form-control" id="role" name="role" required>
-                                            <option value="employee">Employee</option>
-                                            <option value="admin">Admin</option>
+                                        <select class="form-control ${errors['role'] != null ? 'is-invalid' : ''}"
+                                            id="role" name="role" required>
+                                            <option value="employee" ${employee.getRole()=="employee" ? "selected" : ""
+                                                }>Employee</option>
+                                            <option value="admin" ${employee.getRole()=="admin" ? "selected" : "" }>
+                                                Admin</option>
                                         </select>
+                                        <c:if test="${errors['role'] != null}">
+                                            <div class="invalid-feedback">
+                                                ${errors['role']}
+                                            </div>
+                                        </c:if>
                                     </div>
+
                                     <div class="form-group">
                                         <label for="salary">Salary</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Php</span>
                                             </div>
-                                            <input type="number" class="form-control" id="salary" name="salary"
-                                                value="20000" step="0.01">
+                                            <input type="number"
+                                                class="form-control ${errors['salary'] != null ? 'is-invalid' : ''}"
+                                                id="salary" name="salary" value="${employee.getSalary()}" step="0.01">
                                         </div>
+                                        <c:if test="${errors['salary'] != null}">
+                                            <div class="invalid-feedback d-block">
+                                                ${errors['salary']}
+                                            </div>
+                                        </c:if>
                                     </div>
+
                                     <div class="form-group">
                                         <label for="email">Email Address</label>
-                                        <input type="email" class="form-control" id="email" name="email" required>
+                                        <input type="email"
+                                            class="form-control ${errors['email'] != null ? 'is-invalid' : ''}"
+                                            id="email" name="email" required placeholder="e.g., johndoe@jpos.com"
+                                            value="${employee.getEmail()}">
+                                        <c:if test="${errors['email'] != null}">
+                                            <div class="invalid-feedback">
+                                                ${errors['email']}
+                                            </div>
+                                        </c:if>
                                     </div>
+
                                     <div class="form-group">
                                         <label for="phone_number">Phone Number</label>
-                                        <input type="text" class="form-control" id="phone_number" name="phone_number">
+                                        <input type="tel"
+                                            class="form-control ${errors['phone_number'] != null ? 'is-invalid' : ''}"
+                                            id="phone_number" name="phone_number" placeholder="e.g., 09171234567"
+                                            value="${employee.getPhoneNumber()}">
+                                        <c:if test="${errors['phone_number'] != null}">
+                                            <div class="invalid-feedback">
+                                                ${errors['phone_number']}
+                                            </div>
+                                        </c:if>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary">Create Employee</button>

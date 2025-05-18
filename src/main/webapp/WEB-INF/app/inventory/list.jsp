@@ -12,7 +12,7 @@
             <meta name="description" content="">
             <meta name="author" content="">
 
-            <title>JPOS - Dashboard</title>
+            <title>JPOS - Inventory</title>
 
             <!-- Custom fonts for this template-->
             <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
@@ -23,6 +23,10 @@
 
             <!-- Custom styles for this template-->
             <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+
+            <!-- Custom styles for this page -->
+            <link href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css"
+                rel="stylesheet">
 
         </head>
 
@@ -48,7 +52,7 @@
 
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/app/orders/place"
-                            class="w-100 btn btn-primary btn-icon-split nav-link">
+                            class="nav-link bg-gradient-success">
                             <span class="icon text-white-50">
                                 <i class="fas fa-flag"></i>
                             </span>
@@ -93,8 +97,16 @@
                         </a>
                     </li>
 
-                    <!-- Nav Item - Employees -->
+                    <!-- Nav Item - Inventory -->
                     <li class="nav-item active">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/app/inventory/list">
+                            <i class="fas fa-fw fa-list"></i>
+                            <span>Inventory</span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Employee -->
+                    <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/app/employees/list">
                             <i class="fas fa-fw fa-id-card"></i>
                             <span>Employees</span>
@@ -168,18 +180,18 @@
 
                             <!-- Page Heading -->
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 class="h3 mb-0 text-gray-800">Employees</h1>
-                                <a href="${pageContext.request.contextPath}/app/employees/new"
+                                <h1 class="h3 mb-0 text-gray-800">Inventory</h1>
+                                <a href="${pageContext.request.contextPath}/app/inventory/new"
                                     class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                        class="fas fa-plus fa-sm text-white-50"></i> Create New Employee</a>
+                                        class="fas fa-plus fa-sm text-white-50"></i> Create New Inventory</a>
                             </div>
 
                             <!-- Content Row -->
-                            <div class="row">
+                            <div>
                                 <!-- DataTable -->
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Employees</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Inventory</h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
@@ -187,50 +199,67 @@
                                                 cellspacing="0">
                                                 <thead>
                                                     <tr>
-                                                        <th>Full Name</th>
-                                                        <th>Position</th>
-                                                        <th>Salary</th>
-                                                        <th>Email</th>
-                                                        <th>Phone Number</th>
+                                                        <th>Name</th>
+                                                        <th>Type</th>
+                                                        <th>Unit Price</th>
+                                                        <th>In Stock</th>
+                                                        <th>Total Price</th>
+                                                        <th>Min. Quantity</th>
+                                                        <th>Max. Quantity</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tfoot>
                                                     <tr>
-                                                        <th>Full Name</th>
-                                                        <th>Position</th>
-                                                        <th>Salary</th>
-                                                        <th>Email</th>
-                                                        <th>Phone Number</th>
+                                                        <th>Name</th>
+                                                        <th>Type</th>
+                                                        <th>Unit Price</th>
+                                                        <th>In Stock</th>
+                                                        <th>Total Price</th>
+                                                        <th>Min. Quantity</th>
+                                                        <th>Max. Quantity</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </tfoot>
                                                 <tbody>
-                                                    <c:forEach items="${employees}" var="employee">
+                                                    <c:forEach items="${inventories}" var="inventory">
                                                         <tr>
-                                                            <td>${employee.getLastName()}, ${employee.getFirstName()}
-                                                            </td>
+                                                            <td>${inventory.getItemName()}</td>
+
                                                             <td>
-                                                                <c:if test="${employee.getRole() == 'admin'}">
+                                                                <c:if test="${inventory.getItemType() == 'flavor'}">
                                                                     <span class="badge badge-pill badge-primary">
-                                                                        Admin
+                                                                        Flavor
                                                                     </span>
                                                                 </c:if>
-                                                                <c:if test="${employee.getRole() == 'employee'}">
-                                                                    <span class="badge badge-pill badge-secondary">
-                                                                        Employee
+                                                                <c:if test="${inventory.getItemType() == 'topping'}">
+                                                                    <span class="badge badge-pill badge-warning">
+                                                                        Add-On
+                                                                    </span>
+                                                                </c:if>
+                                                                <c:if test="${inventory.getItemType() == 'accessory'}">
+                                                                    <span class="badge badge-pill badge-success">
+                                                                        Accessory
                                                                     </span>
                                                                 </c:if>
                                                             </td>
-                                                            <td>Php ${String.format("%,.2f", employee.getSalary())}</td>
-                                                            <td>${employee.getEmail()}</td>
-                                                            <td>${employee.getPhoneNumber()}</td>
+                                                            <td>Php ${String.format("%,.2f", inventory.getBasePrice())}
+                                                            </td>
+                                                            <td>${inventory.getStock()} ${inventory.getStock() != 1 ?
+                                                                "items" : "item"}</td>
+                                                            <td>Php ${String.format("%,.2f", inventory.getTotalPrice())}
+                                                            </td>
+                                                            <td>${inventory.getFloorAmount()}
+                                                                ${inventory.getFloorAmount() != 1 ? "items" : "item"}
+                                                            </td>
+                                                            <td>${inventory.getRoofAmount()} ${inventory.getRoofAmount()
+                                                                != 1 ? "items" : "item"}</td>
                                                             <td>
-                                                                <a href="${pageContext.request.contextPath}/app/employees/view?employeeId=${employee.getEmployeeId()}"
+                                                                <a href="${pageContext.request.contextPath}/app/inventory/view?employee_id=${inventory.getItemId()}"
                                                                     class="btn btn-primary btn-circle btn-sm">
                                                                     <i class="fas fa-eye"></i>
                                                                 </a>
-                                                                <a href="${pageContext.request.contextPath}/app/employees/edit?employeeId=${employee.getEmployeeId()}"
+                                                                <a href="${pageContext.request.contextPath}/app/employees/edit?employee_id=${inventory.getItemId()}"
                                                                     class="btn btn-secondary btn-circle btn-sm">
                                                                     <i class="fas fa-pen"></i>
                                                                 </a>

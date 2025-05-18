@@ -7,17 +7,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import repositories.employee.EmployeeRepository;
+import repositories.inventory.InventoryRepository;
 
 @WebServlet("/app/inventory/delete")
 public class DeleteInventoryController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer itemId = Integer.parseInt(request.getParameter("itemId"));
+        Integer itemId = Integer.parseInt(request.getParameter("item_id"));
 
-        EmployeeRepository.delete(itemId);
+        InventoryRepository.delete(itemId);
         
-        response.sendRedirect(request.getContextPath() + "/app/inventory/list");
+        response.sendRedirect("/WEB-INF/app/inventory/list");
     }
 }

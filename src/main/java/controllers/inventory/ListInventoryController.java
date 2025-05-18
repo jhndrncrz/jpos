@@ -16,9 +16,9 @@ public class ListInventoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Inventory> inventory = InventoryRepository.findAll();
-        request.setAttribute("inventory", inventory);
+        List<Inventory> inventories = InventoryRepository.findAll();
+        request.setAttribute("inventories", inventories);
         
-        request.getRequestDispatcher("/WEB-INF/app/inventoryManagement/list.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/app/inventory/list.jsp").forward(request, response);
     }
 }

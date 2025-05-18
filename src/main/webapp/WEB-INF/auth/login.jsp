@@ -45,8 +45,8 @@
                                                 <h1 class="h4 text-gray-900 mb-4">
                                                     Welcome to
                                                     <span class="fw-bold">
-                                                        JPOS
-                                                    </span>!
+                                                        JPOS!
+                                                    </span>
                                                 </h1>
                                             </div>
                                             <form class="user" action="${pageContext.request.contextPath}/auth/login"
@@ -54,17 +54,17 @@
                                                 <div class="form-group">
                                                     <input type="text" class="form-control form-control-user"
                                                         id="exampleInputUsername" aria-describedby="usernameHelp"
-                                                        placeholder="Enter Username..." name="username">
+                                                        placeholder="Username..." name="username">
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="password" class="form-control form-control-user"
-                                                        id="exampleInputPassword" placeholder="Password"
+                                                        id="exampleInputPassword" placeholder="Password..."
                                                         name="password">
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="custom-control custom-checkbox small">
                                                         <input type="checkbox" class="custom-control-input"
-                                                            id="customCheck" name="remember-me">
+                                                            id="customCheck" name="remember-me" checked>
                                                         <label class="custom-control-label" for="customCheck">Remember
                                                             Me</label>
                                                     </div>
@@ -80,12 +80,11 @@
                                                         <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
                                                     </a> -->
                                             </form>
-                                            <c:if test="${not empty sessionScope.error}">
+                                            <c:if test="${not empty error}">
                                                 <hr>
                                                 <div class="alert alert-danger" role="alert">
-                                                    ${sessionScope.error}
+                                                    ${error}
                                                 </div>
-                                                <c:remove var="error" scope="session" />
                                             </c:if>
                                             <!-- <hr>
                                             <div class="text-center">

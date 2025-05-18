@@ -12,7 +12,7 @@
             <meta name="description" content="">
             <meta name="author" content="">
 
-            <title>JPOS - Dashboard</title>
+            <title>JPOS - Employees</title>
 
             <!-- Custom fonts for this template-->
             <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
@@ -23,6 +23,9 @@
 
             <!-- Custom styles for this template-->
             <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+
+            <!-- Custom styles for this page -->
+            <link href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
         </head>
 
@@ -48,7 +51,7 @@
 
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/app/orders/place"
-                            class="w-100 btn btn-primary btn-icon-split nav-link">
+                            class="nav-link bg-gradient-success">
                             <span class="icon text-white-50">
                                 <i class="fas fa-flag"></i>
                             </span>
@@ -90,6 +93,14 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/app/products/list">
                             <i class="fas fa-fw fa-utensils"></i>
                             <span>Products</span>
+                        </a>
+                    </li>
+
+                    <!-- Nav Item - Inventory -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/app/inventory/list">
+                            <i class="fas fa-fw fa-list"></i>
+                            <span>Inventory</span>
                         </a>
                     </li>
 
@@ -174,72 +185,68 @@
                                         class="fas fa-plus fa-sm text-white-50"></i> Create New Employee</a>
                             </div>
 
-                            <!-- Content Row -->
-                            <div class="row">
-                                <!-- DataTable -->
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Employees</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered" id="dataTable" width="100%"
-                                                cellspacing="0">
-                                                <thead>
+                            <!-- DataTable -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Employees</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Full Name</th>
+                                                    <th>Position</th>
+                                                    <th>Salary</th>
+                                                    <th>Email</th>
+                                                    <th>Phone Number</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Full Name</th>
+                                                    <th>Position</th>
+                                                    <th>Salary</th>
+                                                    <th>Email</th>
+                                                    <th>Phone Number</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                <c:forEach items="${employees}" var="employee">
                                                     <tr>
-                                                        <th>Full Name</th>
-                                                        <th>Position</th>
-                                                        <th>Salary</th>
-                                                        <th>Email</th>
-                                                        <th>Phone Number</th>
-                                                        <th>Actions</th>
+                                                        <td>${employee.getLastName()}, ${employee.getFirstName()}
+                                                        </td>
+                                                        <td>
+                                                            <c:if test="${employee.getRole() == 'admin'}">
+                                                                <span class="badge badge-pill badge-primary">
+                                                                    Admin
+                                                                </span>
+                                                            </c:if>
+                                                            <c:if test="${employee.getRole() == 'employee'}">
+                                                                <span class="badge badge-pill badge-secondary">
+                                                                    Employee
+                                                                </span>
+                                                            </c:if>
+                                                        </td>
+                                                        <td>Php ${String.format("%,.2f", employee.getSalary())}</td>
+                                                        <td>${employee.getEmail()}</td>
+                                                        <td>${employee.getPhoneNumber()}</td>
+                                                        <td>
+                                                            <a href="${pageContext.request.contextPath}/app/employees/view?employee_id=${employee.getEmployeeId()}"
+                                                                class="btn btn-primary btn-circle btn-sm">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+                                                            <a href="${pageContext.request.contextPath}/app/employees/edit?employee_id=${employee.getEmployeeId()}"
+                                                                class="btn btn-secondary btn-circle btn-sm">
+                                                                <i class="fas fa-pen"></i>
+                                                            </a>
+                                                        </td>
                                                     </tr>
-                                                </thead>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>Full Name</th>
-                                                        <th>Position</th>
-                                                        <th>Salary</th>
-                                                        <th>Email</th>
-                                                        <th>Phone Number</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </tfoot>
-                                                <tbody>
-                                                    <c:forEach items="${employees}" var="employee">
-                                                        <tr>
-                                                            <td>${employee.getLastName()}, ${employee.getFirstName()}
-                                                            </td>
-                                                            <td>
-                                                                <c:if test="${employee.getRole() == 'admin'}">
-                                                                    <span class="badge badge-pill badge-primary">
-                                                                        Admin
-                                                                    </span>
-                                                                </c:if>
-                                                                <c:if test="${employee.getRole() == 'employee'}">
-                                                                    <span class="badge badge-pill badge-secondary">
-                                                                        Employee
-                                                                    </span>
-                                                                </c:if>
-                                                            </td>
-                                                            <td>Php ${String.format("%,.2f", employee.getSalary())}</td>
-                                                            <td>${employee.getEmail()}</td>
-                                                            <td>${employee.getPhoneNumber()}</td>
-                                                            <td>
-                                                                <a href="${pageContext.request.contextPath}/app/employees/view?employeeId=${employee.getEmployeeId()}"
-                                                                    class="btn btn-primary btn-circle btn-sm">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </a>
-                                                                <a href="${pageContext.request.contextPath}/app/employees/edit?employeeId=${employee.getEmployeeId()}"
-                                                                    class="btn btn-secondary btn-circle btn-sm">
-                                                                    <i class="fas fa-pen"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

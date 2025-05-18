@@ -15,11 +15,11 @@ public class ViewInventoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer itemId = Integer.parseInt(request.getParameter("itemId"));
+        Integer itemId = Integer.parseInt(request.getParameter("item_id"));
         Inventory inventory = InventoryRepository.findById(itemId);
 
         request.setAttribute("inventory", inventory);
 
-        request.getRequestDispatcher(request.getContextPath() + "/app/inventory/view.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/app/inventory/view.jsp").forward(request, response);
     }
 }

@@ -1,5 +1,5 @@
 CREATE TABLE `Employee` (
-    `employee_id` INT PRIMARY KEY,
+    `employee_id` INT PRIMARY KEY AUTO_INCREMENT,
 
     `username` VARCHAR(255) UNIQUE NOT NULL,
     `password_hash` VARCHAR(255) NOT NULL,
@@ -15,6 +15,7 @@ CREATE TABLE `Employee` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
 
 -- CREATE TABLE `EmployeeSession` (
 --     `session_id` VARCHAR(255) PRIMARY KEY,

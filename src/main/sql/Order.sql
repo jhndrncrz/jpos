@@ -2,14 +2,18 @@ CREATE TABLE `Order` (
     `order_id` INT PRIMARY KEY AUTO_INCREMENT,
 
     `employee_id` INT,
+    `customer_id` INT,
     
-    `total_amount` DECIMAL(10, 2) NOT NULL,
     `payment_method` VARCHAR(50),
     `status` ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (`employee_id`) REFERENCES `Employee`(`employee_id`) ON DELETE CASCADE
+    FOREIGN KEY (`employee_id`) REFERENCES `Employee`(`employee_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`customer_id`) REFERENCES `Customer`(`customer_id`) ON DELETE CASCADE
 );
+
+ALTER TABLE `Order`
+DROP COLUMN `total_amount`;
 
 CREATE TABLE `OrderItem` (
     `order_item_id` INT PRIMARY KEY AUTO_INCREMENT,
@@ -19,7 +23,6 @@ CREATE TABLE `OrderItem` (
 
     `quantity` INT NOT NULL,
     `unit_price` DECIMAL(10, 2) NOT NULL,
-    `subtotal` DECIMAL(10, 2) NOT NULL,
 
     FOREIGN KEY (`order_id`) REFERENCES `Order`(`order_id`) ON DELETE CASCADE,
     FOREIGN KEY (`product_id`) REFERENCES `Product`(`product_id`) ON DELETE CASCADE

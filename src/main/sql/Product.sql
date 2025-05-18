@@ -31,3 +31,24 @@ CREATE TABLE `ProductModifier` (
 
     FOREIGN KEY (`modifier_type_id`) REFERENCES `ProductModifierType`(`modifier_type_id`) ON DELETE CASCADE
 );
+
+(1, 'Size'),
+(1, 'Sugar Level'),
+(1, 'Addons');
+
+INSERT INTO `ProductModifier` (`modifier_type_id`, `name`, `price_modifier`) VALUES
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Size' AND `product_id` = 1), 'Small', 0.00),
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Size' AND `product_id` = 1), 'Medium', 0.50),
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Size' AND `product_id` = 1), 'Large', 1.00),
+
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Sugar Level' AND `product_id` = 1), '0%', 0.00),
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Sugar Level' AND `product_id` = 1), '25%', 0.00),
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Sugar Level' AND `product_id` = 1), '50%', 0.00),
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Sugar Level' AND `product_id` = 1), '75%', 0.00),
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Sugar Level' AND `product_id` = 1), '100%', 0.00),
+
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Addons' AND `product_id` = 1), 'Boba', 0.75),
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Addons' AND `product_id` = 1), 'Pudding', 0.75),
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Addons' AND `product_id` = 1), 'Aloe', 0.75),
+((SELECT `modifier_type_id` FROM `ProductModifierType` WHERE `name` = 'Addons' AND `product_id` = 1), 'Grass Jelly', 0.75);
+

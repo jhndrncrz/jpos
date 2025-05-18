@@ -1,97 +1,62 @@
-package models.employee;
+package models.customer;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
-import utilities.cryptography.Cryptography;
 
 /**
- * Represents an employee in the system.
+ * Represents an customer in the system.
  */
-public class Employee {
-    private Integer employeeId;
-    private String username;
-    private String passwordHash;
+public class Customer {
+    private Integer customerId;
+    
     private String firstName;
     private String lastName;
-    private String role;
-    private BigDecimal salary;
+    private String address;
     private String email;
     private String phoneNumber;
+
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
     /**
      * Default constructor.
      */
-    public Employee() {}
+    public Customer() {}
 
     /**
-     * Constructs an Employee with all fields initialized.
-     * @param employeeId Employee's ID
-     * @param username Username
-     * @param password Plaintext password (will be hashed)
+     * Constructs an Customer with all fields initialized.
+     * @param customerId Customer's ID
      * @param firstName First name
      * @param lastName Last name
-     * @param role Role ("admin" or "employee")
-     * @param salary Monthly salary
+     * @param address Address
      * @param email Email address
      * @param phoneNumber Contact number
      * @param createdAt Timestamp when the record was created
      * @param updatedAt Timestamp when the record was last updated
      */
-    public Employee(Integer employeeId, String username, String password, String firstName, String lastName,
-                    String role, BigDecimal salary, String email, String phoneNumber,
+    public Customer(Integer customerId, String firstName, String lastName,
+                    String address, String email, String phoneNumber,
                     Timestamp createdAt, Timestamp updatedAt) {
-        this.setEmployeeId(employeeId);
-        this.setUsername(username);
-        this.setPasswordHash(password);
+        this.setCustomerId(customerId);
         this.setFirstName(firstName);
         this.setLastName(lastName);
-        this.setRole(role);
-        this.setSalary(salary);
+        this.setAddress(address);
         this.setEmail(email);
         this.setPhoneNumber(phoneNumber);
         this.setCreatedAt(createdAt);
         this.setUpdatedAt(updatedAt);
     }
 
-    /** Sets the employee ID. */
-    public void setEmployeeId(Integer employeeId) {
-        if (employeeId == null || employeeId <= 0) {
-            throw new IllegalArgumentException("Employee ID cannot be null or <= 0.");
+    /** Sets the customer ID. */
+    public void setCustomerId(Integer customerId) {
+        if (customerId == null || customerId <= 0) {
+            throw new IllegalArgumentException("Customer ID cannot be null or <= 0.");
         }
-        this.employeeId = employeeId;
+        this.customerId = customerId;
     }
 
-    /** Gets the employee ID. */
-    public Integer getEmployeeId() {
-        return this.employeeId;
-    }
-
-    /** Sets the username. */
-    public void setUsername(String username) {
-        if (username == null || username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be null or empty.");
-        }
-        this.username = username.trim();
-    }
-
-    /** Gets the username. */
-    public String getUsername() {
-        return this.username;
-    }
-
-    /** Sets the password hash from the plaintext password. */
-    public void setPasswordHash(String password) {
-        if (password == null || password.trim().isEmpty()) {
-            throw new IllegalArgumentException("Password hash cannot be null or empty.");
-        }
-        this.passwordHash = Cryptography.hashPassword(password);
-    }
-
-    /** Gets the password hash. */
-    public String getPasswordHash() {
-        return this.passwordHash;
+    /** Gets the customer ID. */
+    public Integer getCustomerId() {
+        return this.customerId;
     }
 
     /** Sets the first name. */
@@ -119,36 +84,24 @@ public class Employee {
     public String getLastName() {
         return this.lastName;
     }
-    
+
     public String getFullName() {
         return this.firstName + " " + this.lastName;
     }
 
-    /** Sets the employee's role. Only "admin" or "employee" are allowed. */
-    public void setRole(String role) {
-        if (role == null || (!role.equals("admin") && !role.equals("employee"))) {
-            throw new IllegalArgumentException("Role must be 'admin' or 'employee'.");
+    /** Sets the address. */
+    public void setAddress(String address) {
+        if (address == null || address.trim().isEmpty()) {
+            throw new IllegalArgumentException("Address cannot be null or empty.");
         }
-        this.role = role;
+        this.address = address.trim();
     }
 
-    /** Gets the role. */
-    public String getRole() {
-        return this.role;
+    /** Gets the address. */
+    public String getAddress() {
+        return this.address;
     }
 
-    /** Sets the salary. Must be non-negative. */
-    public void setSalary(BigDecimal salary) {
-        if (salary == null || salary.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Salary must be non-negative.");
-        }
-        this.salary = salary;
-    }
-
-    /** Gets the salary. */
-    public BigDecimal getSalary() {
-        return this.salary;
-    }
 
     /** Sets the email address. */
     public void setEmail(String email) {

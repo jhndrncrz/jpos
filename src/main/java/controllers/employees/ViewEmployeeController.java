@@ -15,11 +15,11 @@ public class ViewEmployeeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer employeeId = Integer.parseInt(request.getParameter("employeeId"));
+        Integer employeeId = Integer.parseInt(request.getParameter("employee_id"));
         Employee employee = EmployeeRepository.findById(employeeId);
 
         request.setAttribute("employee", employee);
 
-        request.getRequestDispatcher(request.getContextPath() + "/app/employees/view.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/app/employees/view.jsp").forward(request, response);
     }
 }

@@ -1,6 +1,6 @@
-package repositories.employee;
+package repositories.customer;
 
-import models.employee.Employee;
+import models.customer.Customer;
 import utilities.cryptography.Cryptography;
 import utilities.database.DatabaseConnection;
 
@@ -10,46 +10,43 @@ import java.util.List;
 
 /**
  * Repository class for performing CRUD and authentication operations on
- * Employee data.
+ * Customer data.
  */
-public class EmployeeRepository {
+public class CustomerRepository {
 
     /**
-     * Inserts a new employee into the database.
+     * Inserts a new customer into the database.
      */
-    public static boolean create(Employee employee) {
-        String sql = "INSERT INTO `Employee` (username, password_hash, first_name, last_name, role, salary, email, phone_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    public static boolean create(Customer customer) {
+        String sql = "INSERT INTO `Customer` (first_name, last_name, address, email, phone_number) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, employee.getUsername());
-            statement.setString(2, employee.getPasswordHash());
-            statement.setString(3, employee.getFirstName());
-            statement.setString(4, employee.getLastName());
-            statement.setString(5, employee.getRole());
-            statement.setBigDecimal(6, employee.getSalary());
-            statement.setString(7, employee.getEmail());
-            statement.setString(8, employee.getPhoneNumber());
+            statement.setString(1, customer.getFirstName());
+            statement.setString(2, customer.getLastName());
+            statement.setString(3, customer.getAddress());
+            statement.setString(4, customer.getEmail());
+            statement.setString(5, customer.getPhoneNumber());
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error creating employee", e);
+            throw new RuntimeException("Error creating customer", e);
         }
     }
 
     /**
-     * Retrieves an employee by ID.
+     * Retrieves an customer by ID.
      */
-    public static Employee findById(int employeeId) {
-        String sql = "SELECT * FROM `Employee` WHERE employee_id = ?";
+    public static Customer findById(int customerId) {
+        String sql = "SELECT * FROM `Customer` WHERE customer_id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, employeeId);
+            statement.setInt(1, customerId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                return mapEmployee(resultSet);
+                return mapCustomer(resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,42 +55,39 @@ public class EmployeeRepository {
     }
 
     /**
-     * Retrieves all employees.
+     * Retrieves all customers.
      */
-    public static List<Employee> findAll() {
-        String sql = "SELECT * FROM `Employee`";
-        List<Employee> employees = new ArrayList<>();
+    public static List<Customer> findAll() {
+        String sql = "SELECT * FROM `Customer`";
+        List<Customer> customers = new ArrayList<>();
 
         try (Connection connection = DatabaseConnection.getConnection();
                 Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                employees.add(mapEmployee(resultSet));
+                customers.add(mapCustomer(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return employees;
+        return customers;
     }
 
     /**
-     * Updates an employee's details.
+     * Updates an customer's details.
      */
-    public static boolean update(Employee employee) {
-        String sql = "UPDATE `Employee` SET username = ?, password_hash = ?, first_name = ?, last_name = ?, role = ?, salary = ?, email = ?, phone_number = ? WHERE employee_id = ?";
+    public static boolean update(Customer customer) {
+        String sql = "UPDATE `Customer` SET first_name = ?, last_name = ?, address = ?, email = ?, phone_number = ? WHERE customer_id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, employee.getUsername());
-            statement.setString(2, employee.getPasswordHash());
-            statement.setString(3, employee.getFirstName());
-            statement.setString(4, employee.getLastName());
-            statement.setString(5, employee.getRole());
-            statement.setBigDecimal(6, employee.getSalary());
-            statement.setString(7, employee.getEmail());
-            statement.setString(8, employee.getPhoneNumber());
-            statement.setInt(9, employee.getEmployeeId());
+            statement.setString(1, customer.getFirstName());
+            statement.setString(2, customer.getLastName());
+            statement.setString(3, customer.getAddress());
+            statement.setString(4, customer.getEmail());
+            statement.setString(5, customer.getPhoneNumber());
+            statement.setInt(6, customer.getCustomerId());
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,14 +96,14 @@ public class EmployeeRepository {
     }
 
     /**
-     * Deletes an employee by ID.
+     * Deletes an customer by ID.
      */
-    public static boolean delete(int employeeId) {
-        String sql = "DELETE FROM `Employee` WHERE employee_id = ?";
+    public static boolean delete(int customerId) {
+        String sql = "DELETE FROM `Customer` WHERE customer_id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, employeeId);
+            statement.setInt(1, customerId);
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -118,10 +112,10 @@ public class EmployeeRepository {
     }
 
     /**
-     * Authenticates an employee by username and password hash.
+     * Authenticates an customer by username and password hash.
      */
-    public static Employee authenticate(String username, String password) {
-        String sql = "SELECT * FROM `Employee` WHERE username = ? AND password_hash = ?";
+    public static Customer authenticate(String username, String password) {
+        String sql = "SELECT * FROM `Customer` WHERE username = ? AND password_hash = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -130,7 +124,7 @@ public class EmployeeRepository {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                return mapEmployee(resultSet);
+                return mapCustomer(resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -142,7 +136,7 @@ public class EmployeeRepository {
      * Checks if a username is already taken.
      */
     public static boolean isUsernameTaken(String username) {
-        String sql = "SELECT 1 FROM `Employee` WHERE username = ?";
+        String sql = "SELECT 1 FROM `Customer` WHERE username = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -156,17 +150,14 @@ public class EmployeeRepository {
     }
 
     /**
-     * Extracts an Employee object from a ResultSet row.
+     * Extracts an Customer object from a ResultSet row.
      */
-    private static Employee mapEmployee(ResultSet rs) throws SQLException {
-        return new Employee(
-                rs.getInt("employee_id"),
-                rs.getString("username"),
-                rs.getString("password_hash"),
+    private static Customer mapCustomer(ResultSet rs) throws SQLException {
+        return new Customer(
+                rs.getInt("customer_id"),
                 rs.getString("first_name"),
                 rs.getString("last_name"),
-                rs.getString("role"),
-                rs.getBigDecimal("salary"),
+                rs.getString("address"),
                 rs.getString("email"),
                 rs.getString("phone_number"),
                 rs.getTimestamp("created_at"),

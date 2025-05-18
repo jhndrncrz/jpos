@@ -48,7 +48,7 @@
 
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/app/orders/place"
-                            class="w-100 btn btn-primary btn-icon-split nav-link bg-gradient-warning">
+                            class="nav-link bg-gradient-success">
                             <span class="icon text-white-50">
                                 <i class="fas fa-flag"></i>
                             </span>
@@ -79,8 +79,11 @@
                             data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">Orders</h6>
-                                <a class="collapse-item" href="${pageContext.request.contextPath}/app/orders/list">All Orders</a>
-                                <a class="collapse-item" href="${pageContext.request.contextPath}/app/orders/list?pending=true">Pending Orders</a>
+                                <a class="collapse-item" href="${pageContext.request.contextPath}/app/orders/list">All
+                                    Orders</a>
+                                <a class="collapse-item"
+                                    href="${pageContext.request.contextPath}/app/orders/list?pending=true">Pending
+                                    Orders</a>
                             </div>
                         </div>
                     </li>
@@ -93,19 +96,19 @@
                         </a>
                     </li>
 
+                    <!-- Nav Item - Inventory -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/app/inventory/list">
+                            <i class="fas fa-fw fa-list"></i>
+                            <span>Inventory</span>
+                        </a>
+                    </li>
+
                     <!-- Nav Item - Employees -->
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/app/employees/list">
                             <i class="fas fa-fw fa-id-card"></i>
                             <span>Employees</span>
-                        </a>
-                    </li>
-                    
-                    <!-- Nav Item - Inventory -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/app/inventory/list">
-                            <i class="fas fa-fw fa-id-card"></i>
-                            <span>Inventory</span>
                         </a>
                     </li>
 
@@ -142,16 +145,19 @@
                                         <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                             ${sessionScope.username}
                                         </span>
-                                        <img class="img-profile rounded-circle" src="${pageContext.request.contextPath}/resources/img/undraw_profile.svg">
+                                        <img class="img-profile rounded-circle"
+                                            src="${pageContext.request.contextPath}/resources/img/undraw_profile.svg">
                                     </a>
                                     <!-- Dropdown - User Information -->
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                         aria-labelledby="userDropdown">
-                                        <form action="${pageContext.request.contextPath}/app/employees/view/" method="get">
-                                            <input class="d-none" type="text" name="employeeId" value="${sessionScope.employeeId}"">
-                                            <button type="submit" class="dropdown-item">
-                                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                                Profile
+                                        <form action="${pageContext.request.contextPath}/app/employees/view/"
+                                            method="get">
+                                            <input class="d-none" type="text" name="employeeId"
+                                                value="${sessionScope.employeeId}"">
+                                            <button type=" submit" class="dropdown-item">
+                                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            Profile
                                             </button>
                                         </form>
                                         <div class="dropdown-divider"></div>
@@ -476,7 +482,8 @@
                                         <div class="card-body">
                                             <div class="text-center">
                                                 <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                                    src="${pageContext.request.contextPath}/resources/img/undraw_posting_photo.svg" alt="...">
+                                                    src="${pageContext.request.contextPath}/resources/img/undraw_posting_photo.svg"
+                                                    alt="...">
                                             </div>
                                             <p>Add some quality, svg illustrations to your project courtesy of <a
                                                     target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>,

@@ -50,7 +50,7 @@ public class OrderItemRepository {
     }
 
     public static boolean insert(OrderItem item) {
-        String sql = "INSERT INTO `OrderItem` (order_id, product_id, quantity, unit_price, subtotal) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO `OrderItem` (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -58,7 +58,6 @@ public class OrderItemRepository {
             statement.setInt(2, item.getProductId());
             statement.setInt(3, item.getQuantity());
             statement.setBigDecimal(4, item.getUnitPrice());
-            statement.setBigDecimal(5, item.getSubtotal());
 
             int rows = statement.executeUpdate();
 
@@ -79,7 +78,7 @@ public class OrderItemRepository {
     }
 
     public static boolean update(OrderItem item) {
-        String sql = "UPDATE `OrderItem` SET order_id = ?, product_id = ?, quantity = ?, unit_price = ?, subtotal = ? WHERE order_item_id = ?";
+        String sql = "UPDATE `OrderItem` SET order_id = ?, product_id = ?, quantity = ?, unit_price = ? WHERE order_item_id = ?";
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -87,8 +86,7 @@ public class OrderItemRepository {
             statement.setInt(2, item.getProductId());
             statement.setInt(3, item.getQuantity());
             statement.setBigDecimal(4, item.getUnitPrice());
-            statement.setBigDecimal(5, item.getSubtotal());
-            statement.setInt(6, item.getOrderItemId());
+            statement.setInt(5, item.getOrderItemId());
 
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
