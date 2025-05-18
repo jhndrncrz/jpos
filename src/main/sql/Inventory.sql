@@ -1,0 +1,12 @@
+CREATE TABLE Inventory (
+    item_id INT AUTO_INCREMENT PRIMARY KEY,
+    itemName VARCHAR(255) NOT NULL,
+    itemType VARCHAR(100) NOT NULL,
+    base_price FLOAT NOT NULL,
+    stock INT NOT NULL,
+    totalPrice FLOAT NOT NULL,
+    floorAmount INT NOT NULL,
+    roofAmount INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
