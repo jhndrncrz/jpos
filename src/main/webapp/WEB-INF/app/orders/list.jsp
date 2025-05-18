@@ -157,9 +157,9 @@
                                     <!-- Dropdown - User Information -->
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                         aria-labelledby="userDropdown">
-                                        <form action="${pageContext.request.contextPath}/app/orders/view/" method="get">
-                                            <input class="d-none" type="text" name="orderId"
-                                                value="${sessionScope.orderId}"">
+                                        <form action="${pageContext.request.contextPath}/app/employees/view/" method="get">
+                                            <input class="d-none" type="text" name="employeeId"
+                                                value="${sessionScope.employeeId}">
                                             <button type=" submit" class="dropdown-item">
                                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Profile
@@ -273,20 +273,19 @@
                                                                 class="btn btn-secondary btn-circle btn-sm">
                                                                 <i class="fas fa-pen"></i>
                                                             </a>
-                                                            <a class="btn btn-secondary btn-circle btn-sm"
-                                                                href="#"
-                                                                id="userDropdown" role="button" data-toggle="dropdown"
+                                                            <a class="btn btn-secondary btn-circle btn-sm" href="#"
+                                                                id="actionDropdown" role="button" data-toggle="dropdown"
                                                                 aria-haspopup="true" aria-expanded="false">
                                                                 <i class="fas fa-pen"></i>
                                                             </a>
                                                             <!-- Dropdown - User Information -->
                                                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                                                aria-labelledby="userDropdown">
+                                                                aria-labelledby="actionDropdown">
                                                                 <form
                                                                     action="${pageContext.request.contextPath}/app/orders/view/"
                                                                     method="get">
                                                                     <input class="d-none" type="text" name="orderId"
-                                                                        value="${sessionScope.orderId}"">
+                                                                        value="${sessionScope.orderId}">
                                             <button type=" submit" class="dropdown-item">
                                                                     <i
                                                                         class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>

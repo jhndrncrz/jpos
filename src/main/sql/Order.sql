@@ -4,7 +4,7 @@ CREATE TABLE `Order` (
     `employee_id` INT,
     `customer_id` INT,
     
-    `payment_method` VARCHAR(50),
+    `payment_method` ENUM('cash', 'ewallet', 'debit-credit') DEFAULT 'pending',
     `status` ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -12,8 +12,8 @@ CREATE TABLE `Order` (
     FOREIGN KEY (`customer_id`) REFERENCES `Customer`(`customer_id`) ON DELETE CASCADE
 );
 
-ALTER TABLE `Order`
-DROP COLUMN `total_amount`;
+ALTER TABLE `Order` MODIFY `payment_method` ENUM('cash', 'ewallet', 'debit-credit') DEFAULT 'cash';
+
 
 CREATE TABLE `OrderItem` (
     `order_item_id` INT PRIMARY KEY AUTO_INCREMENT,

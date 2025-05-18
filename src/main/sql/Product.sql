@@ -4,7 +4,7 @@ CREATE TABLE `Product` (
     `name` VARCHAR(255) NOT NULL,
     `description` TEXT,
     `stock` INT NOT NULL,
-    `limit` INT NOT NULL,
+    `threshold` INT NOT NULL,
     `base_price` DECIMAL(10, 2) NOT NULL, 
 
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

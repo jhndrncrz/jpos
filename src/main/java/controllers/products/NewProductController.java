@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.management.RuntimeErrorException;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -26,15 +24,36 @@ public class NewProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Map<String, String> errors = new HashMap<String, String>();
+
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        Integer stock = Integer.parseInt(request.getParameter("stock"));
-        Integer limit = Integer.parseInt(request.getParameter("limit"));
-        BigDecimal basePrice = new BigDecimal(request.getParameter("base_price"));
+        Integer stock;
+        Integer threshold;
+        BigDecimal basePrice;
+
+        try {
+            stock = Integer.parseInt(request.getParameter("stock"));
+        } catch (NumberFormatException e) {
+            stock = 0;
+            errors.put("stock", e.getMessage());
+        }
+
+        try {
+            threshold = Integer.parseInt(request.getParameter("threshold"));
+        } catch (NumberFormatException e) {
+            threshold = 0;
+            errors.put("threshold", e.getMessage());
+        }
+
+        try {
+            basePrice = new BigDecimal(request.getParameter("base_price"));
+        } catch (NumberFormatException e) {
+            basePrice = BigDecimal.ZERO;
+            errors.put("base_price", e.getMessage());
+        }
 
         Product product = new Product();
-
-        Map<String, String> errors = new HashMap<String, String>();
 
         try {
             product.setName(name);
@@ -55,9 +74,9 @@ public class NewProductController extends HttpServlet {
         }
 
         try {
-            product.setLimit(limit);
+            product.setThreshold(threshold);
         } catch (Exception e) {
-            errors.put("limit", e.getMessage());
+            errors.put("threshold", e.getMessage());
         }
 
         try {
@@ -77,10 +96,8 @@ public class NewProductController extends HttpServlet {
         try {
             ProductRepository.create(product);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ServletException(e);
         }
-
-        
 
         response.sendRedirect(request.getContextPath() + "/app/products/list");
     }

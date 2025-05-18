@@ -30,19 +30,26 @@ public class EditEmployeeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Map<String, String> errors = new HashMap<String, String>();
+        
         Integer employeeId = Integer.parseInt(request.getParameter("employee_id"));
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String firstName = request.getParameter("first_name");
         String lastName = request.getParameter("last_name");
         String role = request.getParameter("role");
-        BigDecimal salary = new BigDecimal(request.getParameter("salary"));
+        BigDecimal salary;
         String email = request.getParameter("email");
         String phoneNumber = request.getParameter("phone_number");
 
-        Employee employee = new Employee();
+        try {
+            salary = new BigDecimal(request.getParameter("salary"));
+        } catch (NumberFormatException e) {
+            salary = BigDecimal.ZERO;
+            errors.put("salary", e.getMessage());
+        }
 
-        Map<String, String> errors = new HashMap<String, String>();
+        Employee employee = new Employee();
 
         employee.setEmployeeId(employeeId);
         employee.setUsername(username);

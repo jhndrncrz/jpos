@@ -14,7 +14,7 @@ public class Product {
     private String name;
     private String description;
     private Integer stock;
-    private Integer limit;
+    private Integer threshold;
     private BigDecimal basePrice;
 
     private Timestamp createdAt;
@@ -26,6 +26,7 @@ public class Product {
      * Default constructor.
      */
     public Product() {
+        this.modifierTypes = new ArrayList<ProductModifierType>();
     }
 
     /**
@@ -44,7 +45,7 @@ public class Product {
         this.setName(name);
         this.setDescription(description);
         this.setStock(stock);
-        this.setLimit(limit);
+        this.setThreshold(limit);
         this.setBasePrice(basePrice);
         this.setCreatedAt(createdAt);
         this.modifierTypes = new ArrayList<ProductModifierType>();
@@ -144,26 +145,26 @@ public class Product {
      *
      * @return The maximum stock level.
      */
-    public Integer getLimit() {
-        return this.limit;
+    public Integer getThreshold() {
+        return this.threshold;
     }
 
     /**
      * Sets the maximum stock level for the product.
      *
-     * @param limit The maximum stock level to set. Must be non-negative.
+     * @param threshold The maximum stock level to set. Must be non-negative.
      * @throws IllegalArgumentException 
      */
-    public void setLimit(Integer limit) {
-        if (limit == null) {
+    public void setThreshold(Integer threshold) {
+        if (threshold == null) {
             throw new IllegalArgumentException("Limit cannot be null.");
         }
 
-        if (limit < 0) {
+        if (threshold < 0) {
             throw new IllegalArgumentException("Limit cannot be negative.");
         }
 
-        this.limit = limit;
+        this.threshold = threshold;
     }
 
     /**

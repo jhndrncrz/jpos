@@ -12,7 +12,7 @@
             <meta name="description" content="">
             <meta name="author" content="">
 
-            <title>JPOS - Edit Employee ${String.format("%s %s", employee.getFirstName(), employee.getLastName())}
+            <title>JPOS - Edit Item ${inventory.getItemName()}
             </title>
 
             <!-- Custom fonts for this template-->
@@ -95,7 +95,7 @@
                     </li>
 
                     <!-- Nav Item - Inventory -->
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="${pageContext.request.contextPath}/app/inventory/list">
                             <i class="fas fa-fw fa-list"></i>
                             <span>Inventory</span>
@@ -103,7 +103,7 @@
                     </li>
 
                     <!-- Nav Item - Employees -->
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/app/employees/list">
                             <i class="fas fa-fw fa-id-card"></i>
                             <span>Employees</span>
@@ -152,7 +152,7 @@
                                         <form action="${pageContext.request.contextPath}/app/employees/view/"
                                             method="get">
                                             <input class="d-none" type="text" name="employeeId"
-                                                value="${sessionScope.employeeId}"">
+                                                value="${sessionScope.employeeId}">
                                             <button type=" submit" class="dropdown-item">
                                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Profile
@@ -185,74 +185,38 @@
 
                             <!-- Content Row -->
                             <div>
-                                <c:if test="${not empty employee}">
-                                    <form action="${pageContext.request.contextPath}/app/employees/edit" method="post">
-                                        <input class="d-none" type="text" name="employee_id"
-                                            value="${employee.getEmployeeId()}">
+                                <c:if test="${not empty }">
+                                    <form action="${pageContext.request.contextPath}/app/inventory/edit" method="post">
+                                        <input class="d-none" type="text" name="item_id"
+                                            value="${inventory.getItemId()}">
 
-                                        <div class="row">
-                                            <div class="col form-group">
-                                                <label for="username">Username</label>
-                                                <input type="text"
-                                                    class="form-control ${errors['username'] != null ? 'is-invalid' : ''}"
-                                                    id="username" name="username" value="${employee.getUsername()}"
-                                                    readonly required placeholder="e.g., johndoe">
-                                                <c:if test="${errors['username'] != null}">
-                                                    <div class="invalid-feedback">
-                                                        ${errors['username']}
-                                                    </div>
-                                                </c:if>
-                                            </div>
 
-                                            <div class="col form-group">
-                                                <label for="password">Password</label>
-                                                <input type="password"
-                                                    class="form-control ${errors['password'] != null ? 'is-invalid' : ''}"
-                                                    id="password" name="password"
-                                                    placeholder="(leave blank to keep old password)">
-                                                <c:if test="${errors['password'] != null}">
-                                                    <div class="invalid-feedback">
-                                                        ${errors['password']}
-                                                    </div>
-                                                </c:if>
-                                            </div>
+                                        <div class="col form-group">
+                                            <label for="itemName">Item Name</label>
+                                            <input type="text"
+                                                class="form-control ${errors['itemName'] != null ? 'is-invalid' : ''}"
+                                                id="itemName" name="itemName" value="${employee.getItemName()}"
+                                                required>
+                                            <c:if test="${errors['itemName'] != null}">
+                                                <div class="invalid-feedback">
+                                                    ${errors['itemName']}
+                                                </div>
+                                            </c:if>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col form-group">
-                                                <label for="first_name">First Name</label>
-                                                <input type="text"
-                                                    class="form-control ${errors['first_name'] != null ? 'is-invalid' : ''}"
-                                                    id="first_name" name="first_name" value="${employee.getFirstName()}"
-                                                    required placeholder="e.g., John">
-                                                <c:if test="${errors['first_name'] != null}">
-                                                    <div class="invalid-feedback">
-                                                        ${errors['first_name']}
-                                                    </div>
-                                                </c:if>
-                                            </div>
 
-                                            <div class="col form-group">
-                                                <label for="last_name">Last Name</label>
-                                                <input type="text"
-                                                    class="form-control ${errors['last_name'] != null ? 'is-invalid' : ''}"
-                                                    id="last_name" name="last_name" value="${employee.getLastName()}"
-                                                    required placeholder="e.g., Doe">
-                                                <c:if test="${errors['last_name'] != null}">
-                                                    <div class="invalid-feedback">
-                                                        ${errors['last_name']}
-                                                    </div>
-                                                </c:if>
-                                            </div>
-                                        </div>
 
                                         <div class="form-group">
-                                            <label for="role">Role</label>
-                                            <select class="form-control ${errors['role'] != null ? 'is-invalid' : ''}"
-                                                id="role" name="role" required>
-                                                <option value="employee" ${employee.getRole()=="employee" ? "selected"
-                                                    : "" }>Employee</option>
-                                                <option value="admin" ${employee.getRole()=="admin" ? "selected" : "" }>
+                                            <label for="type">Role</label>
+                                            <select class="form-control ${errors['type'] != null ? 'is-invalid' : ''}"
+                                                id="type" name="type" required>
+                                                <option value="flavor" ${inventory.getItemType()=="employee"
+                                                    ? "selected" : "" }>Employee</option>
+                                                <option value="add-on" ${inventory.getItemType()=="admin" ? "selected"
+                                                    : "" }>
+                                                    Admin</option>
+                                                <option value="add-on" ${inventory.getItemType()=="admin" ? "selected"
+                                                    : "" }>
                                                     Admin</option>
                                             </select>
                                             <c:if test="${errors['role'] != null}">
@@ -306,12 +270,13 @@
                                             </c:if>
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary">Edit Employee</button>
+                                        <button type="submit" class="btn btn-primary">Edit Item</button>
                                     </form>
                                 </c:if>
-                                <c:if test="${empty employee}">
+
+                                <c:if test="${empty item}">
                                     <div class="alert alert-danger">
-                                        You did not select an employee to edit!
+                                        You did not select an item to edit!
                                     </div>
                                 </c:if>
                             </div>

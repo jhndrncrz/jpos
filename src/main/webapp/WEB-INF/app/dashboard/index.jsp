@@ -154,7 +154,7 @@
                                         <form action="${pageContext.request.contextPath}/app/employees/view/"
                                             method="get">
                                             <input class="d-none" type="text" name="employeeId"
-                                                value="${sessionScope.employeeId}"">
+                                                value="${sessionScope.employeeId}">
                                             <button type=" submit" class="dropdown-item">
                                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Profile

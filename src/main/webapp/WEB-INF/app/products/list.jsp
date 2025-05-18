@@ -152,10 +152,10 @@
                                     <!-- Dropdown - User Information -->
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                         aria-labelledby="userDropdown">
-                                        <form action="${pageContext.request.contextPath}/app/products/view/"
+                                        <form action="${pageContext.request.contextPath}/app/employees/view/"
                                             method="get">
-                                            <input class="d-none" type="text" name="productId"
-                                                value="${sessionScope.productId}"">
+                                            <input class="d-none" type="text" name="employeeId"
+                                                value="${sessionScope.employeeId}">
                                             <button type=" submit" class="dropdown-item">
                                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Profile
@@ -233,12 +233,12 @@
                                                                 </span>
                                                             </c:if>
                                                             <c:if
-                                                                test="${0 < product.getStock() && product.getStock() < product.getLimit()}">
+                                                                test="${0 < product.getStock() && product.getStock() < product.getThreshold()}">
                                                                 <span class="badge badge-pill badge-warning">
                                                                     Low Stock
                                                                 </span>
                                                             </c:if>
-                                                            <c:if test="${product.getStock() >= product.getLimit()}">
+                                                            <c:if test="${product.getStock() >= product.getThreshold()}">
                                                                 <span class="badge badge-pill badge-success">
                                                                     In Stock
                                                                 </span>
@@ -254,6 +254,8 @@
                                                                 <i class="fas fa-pen"></i>
                                                             </a>
                                                             <form
+                                                                style="display: inline"
+                                                                method="post"
                                                                 action="${pageContext.request.contextPath}/app/products/delete?product_id=${product.getProductId()}">
                                                                 <button type="submit"
                                                                     class="btn btn-danger btn-circle btn-sm">

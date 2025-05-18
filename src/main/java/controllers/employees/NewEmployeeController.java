@@ -25,24 +25,31 @@ public class NewEmployeeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Map<String, String> errors = new HashMap<String, String>();
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String firstName = request.getParameter("first_name");
         String lastName = request.getParameter("last_name");
         String role = request.getParameter("role");
-        BigDecimal salary = new BigDecimal(request.getParameter("salary"));
+        BigDecimal salary;
         String email = request.getParameter("email");
         String phoneNumber = request.getParameter("phone_number");
 
-        Employee employee = new Employee();
+        try {
+            salary = new BigDecimal(request.getParameter("salary"));
+        } catch (NumberFormatException e) {
+            salary = BigDecimal.ZERO;
+            errors.put("salary", e.getMessage());
+        }
 
-        Map<String, String> errors = new HashMap<String, String>();
+        Employee employee = new Employee();
 
         try {
             if (EmployeeRepository.isUsernameTaken(username)) {
                 throw new Exception("Username is already taken.");
             }
-            
+
             employee.setUsername(username);
         } catch (Exception e) {
             errors.put("username", e.getMessage());
@@ -98,7 +105,11 @@ public class NewEmployeeController extends HttpServlet {
             return;
         }
 
-        EmployeeRepository.create(employee);
+        try {
+            EmployeeRepository.create(employee);
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
 
         response.sendRedirect(request.getContextPath() + "/app/employees/list");
     }

@@ -25,6 +25,7 @@ public class Order {
      * Default constructor.
      */
     public Order() {
+        this.items = new ArrayList<OrderItem>();
     }
 
     /**

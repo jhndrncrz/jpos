@@ -155,7 +155,7 @@
                                         <form action="${pageContext.request.contextPath}/app/employees/view/"
                                             method="get">
                                             <input class="d-none" type="text" name="employeeId"
-                                                value="${sessionScope.employeeId}"">
+                                                value="${sessionScope.employeeId}">
                                             <button type=" submit" class="dropdown-item">
                                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Profile
@@ -206,6 +206,7 @@
                                                         <th>Total Price</th>
                                                         <th>Min. Quantity</th>
                                                         <th>Max. Quantity</th>
+                                                        <th>Status</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -218,6 +219,7 @@
                                                         <th>Total Price</th>
                                                         <th>Min. Quantity</th>
                                                         <th>Max. Quantity</th>
+                                                        <th>Status</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </tfoot>
@@ -232,7 +234,7 @@
                                                                         Flavor
                                                                     </span>
                                                                 </c:if>
-                                                                <c:if test="${inventory.getItemType() == 'topping'}">
+                                                                <c:if test="${inventory.getItemType() == 'add-on'}">
                                                                     <span class="badge badge-pill badge-warning">
                                                                         Add-On
                                                                     </span>
@@ -242,6 +244,11 @@
                                                                         Accessory
                                                                     </span>
                                                                 </c:if>
+                                                                <c:if test="${inventory.getItemType() == 'others'}">
+                                                                    <span class="badge badge-pill badge-secondary">
+                                                                        Others
+                                                                    </span>
+                                                                </c:if>
                                                             </td>
                                                             <td>Php ${String.format("%,.2f", inventory.getBasePrice())}
                                                             </td>
@@ -249,20 +256,50 @@
                                                                 "items" : "item"}</td>
                                                             <td>Php ${String.format("%,.2f", inventory.getTotalPrice())}
                                                             </td>
-                                                            <td>${inventory.getFloorAmount()}
+                                                            <td>
+                                                                ${inventory.getFloorAmount()}
                                                                 ${inventory.getFloorAmount() != 1 ? "items" : "item"}
                                                             </td>
-                                                            <td>${inventory.getRoofAmount()} ${inventory.getRoofAmount()
-                                                                != 1 ? "items" : "item"}</td>
                                                             <td>
-                                                                <a href="${pageContext.request.contextPath}/app/inventory/view?employee_id=${inventory.getItemId()}"
+                                                                ${inventory.getRoofAmount()} ${inventory.getRoofAmount()
+                                                                != 1 ? "items" : "item"}
+                                                            </td>
+                                                            <td>
+                                                                <c:if
+                                                                    test="${inventory.getFloorAmount() > inventory.getStock()}">
+                                                                    <span class="badge badge-pill badge-danger">
+                                                                        Under Stock
+                                                                    </span>
+                                                                </c:if>
+                                                                <c:if
+                                                                    test="${inventory.getFloorAmount() <= inventory.getStock() && inventory.getStock() <= inventory.getRoofAmount()}">
+                                                                    <span class="badge badge-pill badge-success">
+                                                                        In Stock
+                                                                    </span>
+                                                                </c:if>
+                                                                <c:if
+                                                                    test="${inventory.getRoofAmount() < inventory.getStock()}">
+                                                                    <span class="badge badge-pill badge-warning">
+                                                                        Over Stock
+                                                                    </span>
+                                                                </c:if>
+                                                            </td>
+                                                            <td>
+                                                                <a href="${pageContext.request.contextPath}/app/inventory/view?item_id=${inventory.getItemId()}"
                                                                     class="btn btn-primary btn-circle btn-sm">
                                                                     <i class="fas fa-eye"></i>
                                                                 </a>
-                                                                <a href="${pageContext.request.contextPath}/app/employees/edit?employee_id=${inventory.getItemId()}"
+                                                                <a href="${pageContext.request.contextPath}/app/inventory/edit?item_id=${inventory.getItemId()}"
                                                                     class="btn btn-secondary btn-circle btn-sm">
                                                                     <i class="fas fa-pen"></i>
                                                                 </a>
+                                                                <form style="display: inline" method="post"
+                                                                    action="${pageContext.request.contextPath}/app/inventory/delete?item_id=${inventory.getItemId()}">
+                                                                    <button type="submit"
+                                                                        class="btn btn-danger btn-circle btn-sm">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </form>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>

@@ -152,7 +152,7 @@
                                         <form action="${pageContext.request.contextPath}/app/employees/view/"
                                             method="get">
                                             <input class="d-none" type="text" name="employeeId"
-                                                value="${sessionScope.employeeId}"">
+                                                value="${sessionScope.employeeId}">
                                             <button type=" submit" class="dropdown-item">
                                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Profile
@@ -216,12 +216,8 @@
 
                                         <div class="form-group">
                                             <label for="role">Role</label>
-                                            <select class="form-control" id="role" name="role" required readonly>
-                                                <option value="employee" ${employee.getRole()=="employee" ? "selected"
-                                                    : "" }>Employee</option>
-                                                <option value="admin" ${employee.getRole()=="admin" ? "selected" : "" }>
-                                                    Admin</option>
-                                            </select>
+                                            <input type="role" class="form-control" id="role"
+                                                    name="role" readonly value="${employee.getRole()}" required>                                      
                                         </div>
                                         <div class="form-group">
                                             <label for="salary">Salary</label>

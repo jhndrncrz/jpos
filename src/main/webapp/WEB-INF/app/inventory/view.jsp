@@ -12,7 +12,7 @@
             <meta name="description" content="">
             <meta name="author" content="">
 
-            <title>JPOS - View Item {inventory.getItemName()}
+            <title>JPOS - View Item ${inventory.getItemName()}
             </title>
 
             <!-- Custom fonts for this template-->
@@ -95,7 +95,7 @@
                     </li>
 
                     <!-- Nav Item - Inventory -->
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="${pageContext.request.contextPath}/app/inventory/list">
                             <i class="fas fa-fw fa-list"></i>
                             <span>Inventory</span>
@@ -103,7 +103,7 @@
                     </li>
 
                     <!-- Nav Item - Employees -->
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/app/employees/list">
                             <i class="fas fa-fw fa-id-card"></i>
                             <span>Employees</span>
@@ -152,7 +152,7 @@
                                         <form action="${pageContext.request.contextPath}/app/employees/view/"
                                             method="get">
                                             <input class="d-none" type="text" name="employeeId"
-                                                value="${sessionScope.employeeId}"">
+                                                value="${sessionScope.employeeId}">
                                             <button type=" submit" class="dropdown-item">
                                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Profile
@@ -166,7 +166,6 @@
                                         </a>
                                     </div>
                                 </li>
-
                             </ul>
 
                         </nav>
@@ -179,10 +178,10 @@
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                 <h1 class="h3 mb-0 text-gray-800">Inventory > View</h1>
                                 <div class="d-sm-flex align-items-center" style="gap: 1rem;">
-                                    <a href="${pageContext.request.contextPath}/app/employees/edit?employee_id=${employee.getEmployeeId()}"
+                                    <a href="${pageContext.request.contextPath}/app/inventory/edit?item_id=${inventory.getItemId()}"
                                         class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                             class="fas fa-pen fa-sm text-white-50"></i> Edit Inventory</a>
-                                    <a href="${pageContext.request.contextPath}/app/employees/list"
+                                    <a href="${pageContext.request.contextPath}/app/inventory/list"
                                         class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i
                                             class="fas fa-chevron-left fa-sm text-white-50"></i> Back</a>
                                 </div>
@@ -190,8 +189,8 @@
 
                             <!-- Content Row -->
                             <div>
-                                <c:if test="${not empty employee}">
-                                    <form action="${pageContext.request.contextPath}/app/employees/edit" method="post">
+                                <c:if test="${not empty inventory}">
+                                    <form action="${pageContext.request.contextPath}/app/inventory/edit" method="post">
                                         <div class="form-group">
                                             <label for="itemName">Item Name</label>
                                             <input type="text" class="form-control" id="itemName" name="itemName"
@@ -201,11 +200,11 @@
                                         <div class="form-group">
                                             <label for="type">Type</label>
                                             <select class="form-control" id="type" name="type" required readonly>
-                                                <option value="employee" ${inventory.getItemType()=="flavor" ? "selected"
+                                                <option value="flavor" ${inventory.getItemType()=="flavor" ? "selected"
                                                     : "" }>Flavor</option>
-                                                <option value="admin" ${inventory.getItemType()=="topping" ? "selected" : "" }>
+                                                <option value="add-on" ${inventory.getItemType()=="add-on" ? "selected" : "" }>
                                                     Add-on</option>
-                                                <option value="admin" ${inventory.getItemType()=="accessory" ? "selected" : "" }>
+                                                <option value="accessory" ${inventory.getItemType()=="accessory" ? "selected" : "" }>
                                                     Accessory</option>
                                             </select>
                                         </div>

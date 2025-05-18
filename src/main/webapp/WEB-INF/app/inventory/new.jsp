@@ -94,7 +94,7 @@
                     </li>
 
                     <!-- Nav Item - Inventory -->
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="${pageContext.request.contextPath}/app/inventory/list">
                             <i class="fas fa-fw fa-list"></i>
                             <span>Inventory</span>
@@ -102,7 +102,7 @@
                     </li>
 
                     <!-- Nav Item - Employees -->
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/app/employees/list">
                             <i class="fas fa-fw fa-id-card"></i>
                             <span>Employees</span>
@@ -151,7 +151,7 @@
                                         <form action="${pageContext.request.contextPath}/app/employees/view/"
                                             method="get">
                                             <input class="d-none" type="text" name="employeeId"
-                                                value="${sessionScope.employeeId}"">
+                                                value="${sessionScope.employeeId}">
                                             <button type=" submit" class="dropdown-item">
                                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Profile

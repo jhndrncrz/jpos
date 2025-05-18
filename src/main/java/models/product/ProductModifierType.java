@@ -19,6 +19,7 @@ public class ProductModifierType {
      * Default constructor.
      */
     public ProductModifierType() {
+        this.modifiers = new ArrayList<ProductModifier>();
     }
 
     /**

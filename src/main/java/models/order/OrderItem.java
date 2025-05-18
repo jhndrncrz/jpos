@@ -25,6 +25,7 @@ public class OrderItem {
      * Default constructor.
      */
     public OrderItem() {
+        this.modifiers = new ArrayList<ProductModifier>();
     }
 
     /**

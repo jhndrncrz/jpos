@@ -52,7 +52,7 @@ public class ProductRepository {
     }
 
     public static boolean create(Product product) {
-        String sql = "INSERT INTO `Product` (name, description, stock, limit, base_price) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO `Product` (name, description, stock, threshold, base_price) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -60,7 +60,7 @@ public class ProductRepository {
             statement.setString(1, product.getName());
             statement.setString(2, product.getDescription());
             statement.setInt(3, product.getStock());
-            statement.setInt(4, product.getLimit());
+            statement.setInt(4, product.getThreshold());
             statement.setBigDecimal(5, product.getBasePrice());
 
             int rows = statement.executeUpdate();
@@ -79,15 +79,14 @@ public class ProductRepository {
                 return true;
             }
         } catch (SQLException e) {
-            // e.printStackTrace(); fix this
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         return false;
     }
 
     public static boolean update(Product product) {
-        String sql = "UPDATE `Product` SET name = ?, description = ?, stock = ?, limit = ?, base_price = ? WHERE product_id = ?";
+        String sql = "UPDATE `Product` SET name = ?, description = ?, stock = ?, threshold = ?, base_price = ? WHERE product_id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -95,7 +94,7 @@ public class ProductRepository {
             statement.setString(1, product.getName());
             statement.setString(2, product.getDescription());
             statement.setInt(3, product.getStock());
-            statement.setInt(4, product.getLimit());
+            statement.setInt(4, product.getThreshold());
             statement.setBigDecimal(5, product.getBasePrice());
             statement.setInt(6, product.getProductId());
 
@@ -161,7 +160,7 @@ public class ProductRepository {
         product.setName(rs.getString("name"));
         product.setDescription(rs.getString("description"));
         product.setStock(rs.getInt("stock"));
-        product.setLimit(rs.getInt("limit"));
+        product.setThreshold(rs.getInt("threshold"));
         product.setBasePrice(rs.getBigDecimal("base_price"));
         product.setCreatedAt(rs.getTimestamp("created_at"));
         product.setUpdatedAt(rs.getTimestamp("updated_at"));
